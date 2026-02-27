@@ -98,33 +98,44 @@
     }
     .p-bg {
       position: absolute; inset: 0;
-      background-size: cover;
-      background-position: center bottom;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .p-bg-img {
+      width: 100%; object-fit: cover;
+      display: none;
     }
     .p-topbar {
       position: absolute; top: 0; left: 0; right: 0;
       height: 44px;
       display: flex; align-items: center; justify-content: center;
       font-size: .7rem; font-weight: 700; letter-spacing: .04em; color: #fff;
+      z-index: 1;
+    }
+    /* card is centered vertically in the remaining space below topbar */
+    .p-card-wrap {
+      position: absolute;
+      top: 44px; left: 0; right: 0; bottom: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 12px;
+      z-index: 1;
     }
     .p-card {
-      position: absolute;
-      top: 60px; left: 12px; right: 12px;
-      border-radius: 12px;
-      padding: 12px;
-      background: rgba(255,255,255,.92);
+      width: 100%;
+      border-radius: 4px;
+      padding: 14px 12px;
+      background: #F0F0F0;
+      box-shadow: 0 3px 6px rgba(0,0,0,.18);
+      border: 0.5px solid rgba(0,0,0,.12);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 12px;
     }
-    .p-card-title { font-size: .62rem; font-weight: 700; margin-bottom: 6px; }
-    .p-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: #d0e4e8;
-      margin-bottom: 6px;
+    .p-card-title { font-size: .6rem; font-weight: 500; color: #111; text-align: center; }
+    .p-qr-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
-    .p-name { font-size: .6rem; color: #333; margin-bottom: 4px; }
-    .p-btn {
-      width: 100%; padding: 6px; border-radius: 6px;
-      font-size: .58rem; color: #fff; text-align: center; margin-top: 8px;
-    }
+    .p-qr-btn svg { width: 22px; height: 22px; fill: white; }
     .p-progress {
       position: absolute; bottom: 0; left: 0; right: 0;
       height: 4px;
@@ -285,14 +296,20 @@
     <div class="card" style="margin-bottom:1.2rem">
       <h2>Forhandsgranskning</h2>
       <div class="preview-phone" aria-label="Forhandsgranskning av app-utseende">
-        <div class="p-bg" id="p-bg"></div>
+        <div class="p-bg" id="p-bg">
+          <img id="p-bg-img" class="p-bg-img" alt="">
+        </div>
         <div class="p-topbar" id="p-topbar">Min eID-app</div>
-        <div class="p-card">
-          <div class="p-card-title">Mina legitimationer</div>
-          <div class="p-avatar" aria-hidden="true"></div>
-          <div class="p-name">Anna Andersson</div>
-          <div class="p-name" style="color:#888;font-size:.55rem">Personnummer</div>
-          <div class="p-btn" id="p-btn">Autentisera</div>
+        <div class="p-card-wrap">
+          <div class="p-card">
+            <div class="p-card-title">Anvand ditt elektroniska ID</div>
+            <div class="p-qr-btn" id="p-btn">
+              <!-- QR viewfinder icon -->
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3h6v6H3zm2 2v2h2V5zm8-2h6v6h-6zm2 2v2h2V5zM3 13h6v6H3zm2 2v2h2v-2zm11-2h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2z"/>
+              </svg>
+            </div>
+          </div>
         </div>
         <div class="p-progress" aria-hidden="true">
           <div class="p-progress-bar" id="p-bar"></div>
@@ -452,11 +469,16 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     document.getElementById('p-topbar').style.background = state.primaryColor;
     document.getElementById('p-btn').style.background    = state.primaryColor;
     document.getElementById('p-bar').style.background    = state.progressColor;
-    var bg = document.getElementById('p-bg');
+    var bg    = document.getElementById('p-bg');
+    var bgImg = document.getElementById('p-bg-img');
     bg.style.background = state.backgroundColor;
-    bg.style.backgroundImage = state._imageDataUrl
-      ? 'url(' + state._imageDataUrl + ')'
-      : 'none';
+    if (state._imageDataUrl) {
+      bgImg.src          = state._imageDataUrl;
+      bgImg.style.display = 'block';
+    } else {
+      bgImg.style.display = 'none';
+      bgImg.src           = '';
+    }
   }
   updatePreview();
 
