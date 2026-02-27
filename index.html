@@ -102,7 +102,7 @@
     }
     .p-bg-img {
       width: 100%; object-fit: cover;
-      display: none;
+      display: block;
     }
     .p-topbar {
       position: absolute; top: 0; left: 0; right: 0;
@@ -242,6 +242,11 @@
       <h2>Farger</h2>
 
       <div class="row">
+        <label for="inp-appname">App-namn (visas i topbar)</label>
+        <input type="text" id="inp-appname" value="ID-Ombud" maxlength="40" style="width:100%;padding:.5rem .75rem;border:1.5px solid #d0dde0;border-radius:8px;font-size:.9rem;color:var(--primary);outline:none">
+      </div>
+
+      <div class="row">
         <label>Primarfarg (topbar, knappar)</label>
         <div class="color-row">
           <input type="color" id="c-primary" value="#1b434d">
@@ -297,9 +302,9 @@
       <h2>Forhandsgranskning</h2>
       <div class="preview-phone" aria-label="Forhandsgranskning av app-utseende">
         <div class="p-bg" id="p-bg">
-          <img id="p-bg-img" class="p-bg-img" alt="">
+          <img id="p-bg-img" class="p-bg-img" src="public/home_background.jpg" alt="">
         </div>
-        <div class="p-topbar" id="p-topbar">Min eID-app</div>
+        <div class="p-topbar" id="p-topbar">ID-Ombud</div>
         <div class="p-card-wrap">
           <div class="p-card">
             <div class="p-card-title">Anvand ditt elektroniska ID</div>
@@ -372,8 +377,15 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     progressColor:      '#2f7e8e',
     backgroundColor:    '#F7F7F7',
     backgroundImageUrl: null,
-    _imageDataUrl:      null
+    _imageDataUrl:      null,
+    appName:            'ID-Ombud'
   };
+
+  var appNameInput = document.getElementById('inp-appname');
+  appNameInput.addEventListener('input', function () {
+    state.appName = appNameInput.value;
+    updatePreview();
+  });
 
   function bindColor(colorId, textId, key) {
     var cp = document.getElementById(colorId);
@@ -465,20 +477,19 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   });
 
   // preview
+  var DEFAULT_BG_IMG = 'public/home_background.jpg';
+
   function updatePreview() {
     document.getElementById('p-topbar').style.background = state.primaryColor;
+    document.getElementById('p-topbar').textContent      = state.appName || 'ID-Ombud';
     document.getElementById('p-btn').style.background    = state.primaryColor;
     document.getElementById('p-bar').style.background    = state.progressColor;
     var bg    = document.getElementById('p-bg');
     var bgImg = document.getElementById('p-bg-img');
     bg.style.background = state.backgroundColor;
-    if (state._imageDataUrl) {
-      bgImg.src          = state._imageDataUrl;
-      bgImg.style.display = 'block';
-    } else {
-      bgImg.style.display = 'none';
-      bgImg.src           = '';
-    }
+    // Always show an image: custom upload/URL or fallback to app default
+    bgImg.src           = state._imageDataUrl || DEFAULT_BG_IMG;
+    bgImg.style.display = 'block';
   }
   updatePreview();
 
