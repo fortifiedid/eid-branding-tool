@@ -189,6 +189,25 @@
     .demo-info p { font-size: .85rem; color: #555; line-height: 1.55; margin-bottom: .6rem; }
     .demo-info code { font-size: .8rem; background: #f0f6f7; padding: .15em .4em; border-radius: 4px; color: var(--accent); }
     .demo-badge { display: inline-block; padding: .25em .7em; border-radius: 20px; font-size: .72rem; font-weight: 700; background: #e6eff1; color: var(--primary); margin-bottom: .5rem; }
+
+    /* tabs */
+    .tab-bar {
+      display: flex; gap: .5rem;
+      max-width: 900px; margin: 0 auto 1.5rem;
+    }
+    .tab-btn {
+      padding: .55rem 1.3rem;
+      border: none; border-radius: 9px;
+      font-size: .88rem; font-weight: 600;
+      cursor: pointer;
+      background: rgba(255,255,255,.6);
+      color: #666;
+      transition: background .15s, color .15s;
+    }
+    .tab-btn:hover { background: rgba(255,255,255,.85); color: var(--primary); }
+    .tab-btn.active { background: var(--primary); color: #fff; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
   </style>
 </head>
 <body>
@@ -198,6 +217,12 @@
   <p>Konfigurera utseende, ladda ner <code>branding.json</code> och generera QR-kod</p>
 </header>
 
+<nav class="tab-bar" role="tablist" aria-label="Sektioner">
+  <button class="tab-btn active" role="tab" aria-selected="true"  aria-controls="tab-konfigurator" id="btn-konfigurator">Konfigurator</button>
+  <button class="tab-btn"        role="tab" aria-selected="false" aria-controls="tab-demo"          id="btn-demo">Exempelbranding</button>
+</nav>
+
+<div id="tab-konfigurator" class="tab-panel active" role="tabpanel" aria-labelledby="btn-konfigurator">
 <div class="layout">
 
   <!-- LEFT: controls -->
@@ -291,9 +316,10 @@
   </div>
 
 </div>
+</div><!-- /tab-konfigurator -->
 
-<!-- Demo QR card -->
-<div class="demo-card">
+<div id="tab-demo" class="tab-panel" role="tabpanel" aria-labelledby="btn-demo">
+<div class="demo-card" style="margin-top:0">
   <div class="demo-qr-wrap">
     <h2>Demo – skanna direkt</h2>
     <div id="demo-qr" aria-label="Demo QR-kod for FortifiedID standardbranding"></div>
@@ -317,6 +343,7 @@
     <a href="public/branding.json" target="_blank" style="font-size:.8rem;color:var(--accent)">Se exempel-branding.json &rarr;</a>
   </div>
 </div>
+</div><!-- /tab-demo -->
 
 <script>
 // QR encoder (qrcodejs by davidshimjs, MIT licence, inlined)
@@ -521,14 +548,43 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     flashTimers[id] = setTimeout(function () { el.textContent = '\u00a0'; }, 2500);
   }
 
-  // Render pre-baked demo QR on page load
+  // Tab switching
+  var demoQRRendered = false;
   var DEMO_BASE_URL = 'https://fortifiedid.github.io/eid-branding-tool';
   var DEMO_DEEPLINK = 'idombud://branding?url=' + encodeURIComponent(DEMO_BASE_URL);
-  new QRCode(document.getElementById('demo-qr'), {
-    text: DEMO_DEEPLINK, width: 148, height: 148,
-    colorDark: '#1b434d', colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
+
+  function renderDemoQR() {
+    if (demoQRRendered) return;
+    demoQRRendered = true;
+    new QRCode(document.getElementById('demo-qr'), {
+      text: DEMO_DEEPLINK, width: 148, height: 148,
+      colorDark: '#1b434d', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }
+
+  var tabBtns   = document.querySelectorAll('.tab-btn');
+  var tabPanels = document.querySelectorAll('.tab-panel');
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      tabBtns.forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      tabPanels.forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var panelId = btn.getAttribute('aria-controls');
+      document.getElementById(panelId).classList.add('active');
+      if (panelId === 'tab-demo') renderDemoQR();
+    });
   });
+
+  // Render immediately if demo tab is default (e.g. via hash)
+  if (window.location.hash === '#demo') {
+    document.getElementById('btn-demo').click();
+  }
 })();
 </script>
 </body>
