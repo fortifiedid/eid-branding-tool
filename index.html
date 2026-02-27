@@ -398,6 +398,21 @@
         <label for="img-url">Eller ange bild-URL direkt</label>
         <input type="url" id="img-url" placeholder="https://service.example.com/bg.jpg">
       </div>
+      <div id="gh-upload-section" style="margin-top:.6rem">
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+          <button class="btn btn-secondary" id="btn-upload-gh" style="flex:none;font-size:.82rem;padding:.45rem .9rem">&#8593; Ladda upp bild till GitHub Pages</button>
+          <button id="btn-gh-settings" style="background:none;border:none;cursor:pointer;font-size:.8rem;color:#888;padding:.3rem;text-decoration:underline">PAT &#9881;</button>
+        </div>
+        <div id="gh-pat-row" style="display:none;margin-top:.4rem">
+          <label for="gh-pat" style="display:block;font-size:.75rem;font-weight:600;margin-bottom:.25rem">GitHub Personal Access Token <span style="color:#888;font-weight:400">(sparas lokalt i webbläsaren)</span></label>
+          <div style="display:flex;gap:.5rem">
+            <input type="password" id="gh-pat" placeholder="ghp_&hellip;" autocomplete="off" style="flex:1;padding:.4rem .7rem;border:1.5px solid #d0dde0;border-radius:8px;font-size:.85rem;outline:none">
+            <button class="btn btn-secondary" id="btn-save-pat" style="flex:none;padding:.4rem .9rem;font-size:.82rem">Spara</button>
+          </div>
+          <p style="font-size:.72rem;color:#999;margin-top:.25rem">Skapa en PAT med <code>repo</code>-scope (Contents write) p&#229; github.com/settings/tokens. Nyckeln lämnar aldrig din webbläsare.</p>
+        </div>
+        <div id="upload-status" style="font-size:.75rem;color:var(--accent);min-height:1.1em;margin-top:.25rem">&nbsp;</div>
+      </div>
       </div><!-- /bakgrundsbild-sektion -->
 
     </div>
@@ -668,6 +683,78 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       clearImage();
     }
     updatePreview();
+  });
+
+  // GitHub Pages upload
+  var ghPatInput    = document.getElementById('gh-pat');
+  var ghPatRow      = document.getElementById('gh-pat-row');
+  var btnSavePat    = document.getElementById('btn-save-pat');
+  var btnUploadGh   = document.getElementById('btn-upload-gh');
+  var btnGhSettings = document.getElementById('btn-gh-settings');
+  var uploadStatus  = document.getElementById('upload-status');
+
+  var savedPat = localStorage.getItem('gh_branding_pat') || '';
+  if (savedPat) ghPatInput.value = savedPat;
+
+  btnGhSettings.addEventListener('click', function () {
+    ghPatRow.style.display = ghPatRow.style.display === 'none' ? '' : 'none';
+  });
+
+  btnSavePat.addEventListener('click', function () {
+    var pat = ghPatInput.value.trim();
+    if (pat) {
+      localStorage.setItem('gh_branding_pat', pat);
+      ghPatRow.style.display = 'none';
+      uploadStatus.textContent = 'PAT sparad';
+      setTimeout(function () { uploadStatus.textContent = '\u00a0'; }, 2000);
+    }
+  });
+
+  btnUploadGh.addEventListener('click', function () {
+    var pat = (localStorage.getItem('gh_branding_pat') || ghPatInput.value || '').trim();
+    if (!pat) {
+      ghPatRow.style.display = '';
+      ghPatInput.focus();
+      uploadStatus.textContent = 'Ange din GitHub PAT f\u00f6rst';
+      return;
+    }
+    var dataUrl = state._imageDataUrl;
+    if (!dataUrl || dataUrl.startsWith('http')) {
+      uploadStatus.textContent = 'Ingen lokal bild inladdad \u2014 dra in en bild f\u00f6rst';
+      return;
+    }
+    var b64    = dataUrl.split(',')[1];
+    var mime   = (dataUrl.match(/^data:([^;]+)/) || [])[1] || 'image/jpeg';
+    var ext    = mime.split('/')[1].replace('jpeg','jpg') || 'jpg';
+    var fname  = 'public/uploads/img_' + Date.now() + '.' + ext;
+    var apiUrl = 'https://api.github.com/repos/fortifiedid/eid-branding-tool/contents/' + fname;
+
+    uploadStatus.textContent = 'Laddar upp\u2026';
+    btnUploadGh.disabled = true;
+
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + pat, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Upload branding image via konfigurator', content: b64 })
+    })
+    .then(function (r) {
+      if (!r.ok) return r.json().then(function (e) { throw new Error(e.message || r.status); });
+      return r.json();
+    })
+    .then(function () {
+      var publicUrl = 'https://fortifiedid.github.io/eid-branding-tool/' + fname;
+      imgUrlField.value        = publicUrl;
+      state.backgroundImageUrl = publicUrl;
+      // Keep preview showing the already-loaded local image, just update the URL reference
+      uploadStatus.textContent = '\u2713 Uppladdad! URL ifylld automatiskt.';
+      btnUploadGh.disabled = false;
+      var baseUrl = urlInput.value.trim();
+      if (baseUrl) renderQR(buildDeepLink(baseUrl));
+    })
+    .catch(function (err) {
+      uploadStatus.textContent = 'Fel: ' + err.message;
+      btnUploadGh.disabled = false;
+    });
   });
 
   // preview
