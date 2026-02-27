@@ -360,108 +360,6 @@
 </nav>
 
 <div id="tab-konfigurator" class="tab-panel active" role="tabpanel" aria-labelledby="btn-konfigurator">
-
-<!-- Full-width preview carousel -->
-<div class="preview-carousel-card" style="max-width:900px;margin:0 auto 1.5rem">
-  <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:1rem">Förhandsgranskning</p>
-  <div class="carousel-stage">
-    <button class="carousel-nav-btn" id="carousel-prev" aria-label="Föregående skärm">&#8249;</button>
-
-    <div class="carousel-viewport">
-      <div class="carousel-track" id="carousel-track">
-
-        <!-- Slide 1: Hem -->
-        <div class="preview-item">
-          <div class="preview-phone">
-            <!-- branded background + image at bottom -->
-            <div class="p-bg" id="p-bg">
-              <img id="p-bg-img" class="p-bg-img" src="public/home_background.jpg" alt="">
-            </div>
-            <div class="p-topbar" id="p-topbar">ID-Ombud</div>
-            <!-- centered card identical to HomeView cardView -->
-            <div class="p-card-wrap">
-              <div class="p-card">
-                <div class="p-card-title">Använd ditt elektroniska ID</div>
-                <div class="p-qr-btn" id="p-btn">
-                  <svg viewBox="0 0 24 24"><path d="M3 3h6v6H3zm2 2v2h2V5zm8-2h6v6h-6zm2 2v2h2V5zM3 13h6v6H3zm2 2v2h2v-2zm11-2h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2z"/></svg>
-                </div>
-              </div>
-            </div>
-            <div class="p-progress" aria-hidden="true"><div class="p-progress-bar" id="p-bar"></div></div>
-          </div>
-        </div>
-
-        <!-- Slide 2: Mina ID:n (IdentitiesView) -->
-        <div class="preview-item">
-          <div class="preview-phone">
-            <!-- system background behind list -->
-            <div class="p-sys-bg" id="p-bg-2"></div>
-            <div class="p-topbar" id="p-topbar-2">Mina ID:n</div>
-            <!-- scrollable list area, mirrors IdentitiesView LazyVStack -->
-            <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:8px;display:flex;flex-direction:column;gap:7px;z-index:1;overflow:hidden">
-              <!-- identity card 1: person.crop.rectangle icon + name + expiry + LOA 3 badge -->
-              <div class="p-list-row">
-                <div class="p-list-icon" id="p-id-icon-1">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><path d="M4 4h16v16H4z" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M7 17c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>
-                </div>
-                <div style="flex:1;min-width:0">
-                  <div class="p-list-text">Nationellt ID</div>
-                  <div class="p-list-sub">Giltig t.o.m. 2027-06-01</div>
-                </div>
-                <div class="p-loa-badge">LOA 3</div>
-              </div>
-              <!-- identity card 2 -->
-              <div class="p-list-row">
-                <div class="p-list-icon" id="p-id-icon-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M8 15h4"/></svg>
-                </div>
-                <div style="flex:1;min-width:0">
-                  <div class="p-list-text">Acme AB Tjänste-ID</div>
-                  <div class="p-list-sub">Giltig t.o.m. 2026-12-31</div>
-                </div>
-                <div class="p-loa-badge">LOA 2</div>
-              </div>
-            </div>
-            <!-- FAB: + knapp nere till höger, som i IdentitiesView -->
-            <div class="p-fab" id="p-fab">+</div>
-          </div>
-        </div>
-
-        <!-- Slide 3: Inställningar (SettingsView) -->
-        <div class="preview-item">
-          <div class="preview-phone">
-            <div class="p-sys-bg" id="p-bg-3"></div>
-            <div class="p-topbar" id="p-topbar-3">Inställningar</div>
-            <!-- List(.plain) with a single Anslutning row (network icon + Label) -->
-            <div style="position:absolute;top:44px;left:0;right:0;background:#f2f2f7;bottom:0;z-index:1">
-              <div style="height:8px"></div>
-              <div style="background:#fff">
-                <div class="p-list-settings">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:#888"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 17.9V18c0-.6.4-1 1-1s1 .4 1 1v1.9c-2.8-.5-5-2.6-5.3-5.4H9c.6 0 1 .4 1 1s-.4 1-1 1H6.1C6.6 11 9.1 8.5 12 8V6.1C9.2 6.6 7 9.1 7 12H5c0-3.9 3.1-7 7-7V3.1c-4.9.5-8.7 4.5-8.9 9.4C2.9 17.5 7 21 12 21s9.1-3.5 9.9-8.5c-.4.1-.7.5-.9.9z"/></svg>
-                  <span style="font-size:.5rem;color:#111">Anslutning</span>
-                  <span class="p-settings-chevron">›</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /carousel-track -->
-    </div><!-- /carousel-viewport -->
-
-    <button class="carousel-nav-btn" id="carousel-next" aria-label="Nästa skärm">&#8250;</button>
-  </div><!-- /carousel-stage -->
-
-  <div class="carousel-footer">
-    <div class="carousel-dots" role="tablist" aria-label="Välj skärm">
-      <button class="carousel-dot active" data-slide="0" aria-label="Hem" role="tab"></button>
-      <button class="carousel-dot" data-slide="1" aria-label="Mina ID:n" role="tab"></button>
-      <button class="carousel-dot" data-slide="2" aria-label="Inställningar" role="tab"></button>
-    </div>
-    <span class="carousel-label" id="carousel-label">Hem</span>
-  </div>
-</div>
-
 <div class="layout">
 
   <!-- LEFT: controls -->
@@ -534,8 +432,98 @@
     </div>
   </div>
 
-  <!-- RIGHT: QR generator -->
+  <!-- RIGHT: preview carousel + QR -->
   <div>
+
+    <div class="preview-carousel-card" style="margin-bottom:1.2rem">
+      <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888;margin-bottom:1rem">Förhandsgranskning</p>
+      <div class="carousel-stage">
+        <button class="carousel-nav-btn" id="carousel-prev" aria-label="Föregående skärm">&#8249;</button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carousel-track">
+
+            <!-- Slide 1: Hem -->
+            <div class="preview-item">
+              <div class="preview-phone">
+                <div class="p-bg" id="p-bg">
+                  <img id="p-bg-img" class="p-bg-img" src="public/home_background.jpg" alt="">
+                </div>
+                <div class="p-topbar" id="p-topbar">ID-Ombud</div>
+                <div class="p-card-wrap">
+                  <div class="p-card">
+                    <div class="p-card-title">Använd ditt elektroniska ID</div>
+                    <div class="p-qr-btn" id="p-btn">
+                      <svg viewBox="0 0 24 24"><path d="M3 3h6v6H3zm2 2v2h2V5zm8-2h6v6h-6zm2 2v2h2V5zM3 13h6v6H3zm2 2v2h2v-2zm11-2h2v2h-2zm2 2h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2z"/></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-progress" aria-hidden="true"><div class="p-progress-bar" id="p-bar"></div></div>
+              </div>
+            </div>
+
+            <!-- Slide 2: Mina ID:n -->
+            <div class="preview-item">
+              <div class="preview-phone">
+                <div class="p-sys-bg" id="p-bg-2"></div>
+                <div class="p-topbar" id="p-topbar-2">Mina ID:n</div>
+                <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:8px;display:flex;flex-direction:column;gap:7px;z-index:1;overflow:hidden">
+                  <div class="p-list-row">
+                    <div class="p-list-icon" id="p-id-icon-1">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><path d="M4 4h16v16H4z" rx="2"/><circle cx="12" cy="9" r="2.5"/><path d="M7 17c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>
+                    </div>
+                    <div style="flex:1;min-width:0">
+                      <div class="p-list-text">Nationellt ID</div>
+                      <div class="p-list-sub">Giltig t.o.m. 2027-06-01</div>
+                    </div>
+                    <div class="p-loa-badge">LOA 3</div>
+                  </div>
+                  <div class="p-list-row">
+                    <div class="p-list-icon" id="p-id-icon-2">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M8 15h4"/></svg>
+                    </div>
+                    <div style="flex:1;min-width:0">
+                      <div class="p-list-text">Acme AB Tjänste-ID</div>
+                      <div class="p-list-sub">Giltig t.o.m. 2026-12-31</div>
+                    </div>
+                    <div class="p-loa-badge">LOA 2</div>
+                  </div>
+                </div>
+                <div class="p-fab" id="p-fab">+</div>
+              </div>
+            </div>
+
+            <!-- Slide 3: Inställningar -->
+            <div class="preview-item">
+              <div class="preview-phone">
+                <div class="p-sys-bg" id="p-bg-3"></div>
+                <div class="p-topbar" id="p-topbar-3">Inställningar</div>
+                <div style="position:absolute;top:44px;left:0;right:0;background:#f2f2f7;bottom:0;z-index:1">
+                  <div style="height:8px"></div>
+                  <div style="background:#fff">
+                    <div class="p-list-settings">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:#888"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1 17.9V18c0-.6.4-1 1-1s1 .4 1 1v1.9c-2.8-.5-5-2.6-5.3-5.4H9c.6 0 1 .4 1 1s-.4 1-1 1H6.1C6.6 11 9.1 8.5 12 8V6.1C9.2 6.6 7 9.1 7 12H5c0-3.9 3.1-7 7-7V3.1c-4.9.5-8.7 4.5-8.9 9.4C2.9 17.5 7 21 12 21s9.1-3.5 9.9-8.5c-.4.1-.7.5-.9.9z"/></svg>
+                      <span style="font-size:.5rem;color:#111">Anslutning</span>
+                      <span class="p-settings-chevron">›</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /carousel-track -->
+        </div><!-- /carousel-viewport -->
+        <button class="carousel-nav-btn" id="carousel-next" aria-label="Nästa skärm">&#8250;</button>
+      </div><!-- /carousel-stage -->
+      <div class="carousel-footer">
+        <div class="carousel-dots" role="tablist" aria-label="Välj skärm">
+          <button class="carousel-dot active" data-slide="0" aria-label="Hem" role="tab"></button>
+          <button class="carousel-dot" data-slide="1" aria-label="Mina ID:n" role="tab"></button>
+          <button class="carousel-dot" data-slide="2" aria-label="Inställningar" role="tab"></button>
+        </div>
+        <span class="carousel-label" id="carousel-label">Hem</span>
+      </div>
+    </div><!-- /preview-carousel-card -->
+
     <div class="card">
       <h2>QR-kod för brandinguppdatering</h2>
       <p style="font-size:.8rem;color:#666;margin-bottom:.75rem">
@@ -549,6 +537,7 @@
       <div id="deeplink-box" class="deeplink-box" style="display:none" role="button" tabindex="0" aria-label="Kopiera deep link"></div>
       <div class="status" id="qr-status">&nbsp;</div>
     </div>
+
   </div>
 
 </div>
