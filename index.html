@@ -457,7 +457,9 @@
             <!-- Slide 2: Mina ID:n -->
             <div class="preview-item">
               <div class="preview-phone">
-                <div class="p-sys-bg" id="p-bg-2"></div>
+                <div class="p-bg" id="p-bg-2">
+                  <img id="p-bg-img-2" class="p-bg-img" src="public/home_background.jpg" alt="">
+                </div>
                 <div class="p-topbar" id="p-topbar-2">Mina ID:n</div>
                 <div style="position:absolute;top:44px;left:0;right:0;bottom:0;padding:8px;display:flex;flex-direction:column;gap:7px;z-index:1;overflow:hidden">
                   <div class="p-list-row">
@@ -488,9 +490,11 @@
             <!-- Slide 3: Inställningar -->
             <div class="preview-item">
               <div class="preview-phone">
-                <div class="p-sys-bg" id="p-bg-3"></div>
+                <div class="p-bg" id="p-bg-3">
+                  <img id="p-bg-img-3" class="p-bg-img" src="public/home_background.jpg" alt="">
+                </div>
                 <div class="p-topbar" id="p-topbar-3">Inställningar</div>
-                <div style="position:absolute;top:44px;left:0;right:0;background:#f2f2f7;bottom:0;z-index:1">
+                <div style="position:absolute;top:44px;left:0;right:0;background:rgba(242,242,247,.88);bottom:0;z-index:1">
                   <div style="height:8px"></div>
                   <div style="background:#fff">
                     <div class="p-list-settings">
@@ -728,12 +732,20 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 
     // Slide 2 – Mina ID:n
     document.getElementById('p-topbar-2').style.background = primary;
-    document.getElementById('p-fab').style.background       = primary;
+    document.getElementById('p-bg-2').style.background     = bgColor;
+    var bgImgEl2 = document.getElementById('p-bg-img-2');
+    bgImgEl2.src = bgImg;
+    bgImgEl2.style.display = 'block';
+    document.getElementById('p-fab').style.background      = primary;
     document.getElementById('p-id-icon-1').style.background = primary + '22';
     document.getElementById('p-id-icon-2').style.background = accent  + '22';
 
     // Slide 3 – Inställningar
     document.getElementById('p-topbar-3').style.background = primary;
+    document.getElementById('p-bg-3').style.background     = bgColor;
+    var bgImgEl3 = document.getElementById('p-bg-img-3');
+    bgImgEl3.src = bgImg;
+    bgImgEl3.style.display = 'block';
   }
   updatePreview();
 
