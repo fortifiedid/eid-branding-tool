@@ -239,7 +239,7 @@
   <!-- LEFT: controls -->
   <div>
     <div class="card" style="margin-bottom:1.2rem">
-      <h2>Farger</h2>
+      <h2>Färger</h2>
 
       <div class="row">
         <label for="inp-appname">App-namn (visas i topbar)</label>
@@ -247,7 +247,7 @@
       </div>
 
       <div class="row">
-        <label>Primarfarg (topbar, knappar)</label>
+        <label>Primärfärg (topbar, knappar)</label>
         <div class="color-row">
           <input type="color" id="c-primary" value="#1b434d">
           <input type="text"  id="t-primary" value="#1b434d" maxlength="7">
@@ -255,7 +255,7 @@
       </div>
 
       <div class="row">
-        <label>Accentfarg (laddningsindikator)</label>
+        <label>Accentfärg (indikatorfärg)</label>
         <div class="color-row">
           <input type="color" id="c-accent" value="#2f7e8e">
           <input type="text"  id="t-accent" value="#2f7e8e" maxlength="7">
@@ -263,7 +263,7 @@
       </div>
 
       <div class="row">
-        <label>Bakgrundsfarg</label>
+        <label>Bakgrundsfärg</label>
         <div class="color-row">
           <input type="color" id="c-bg" value="#F7F7F7">
           <input type="text"  id="t-bg" value="#F7F7F7" maxlength="7">
@@ -274,9 +274,9 @@
     <div class="card" style="margin-bottom:1.2rem">
       <h2>Bakgrundsbild</h2>
       <div class="drop-zone" id="drop-zone">
-        <span id="drop-label">Dra och slapp en bild hit, eller klicka for att valja</span>
+        <span id="drop-label">Dra och släpp en bild hit, eller klicka för att välja</span>
         <input type="file" id="img-input" accept="image/*" style="display:none">
-        <img id="img-preview" style="display:none" alt="Forhandsgranskning av bakgrundsbild">
+        <img id="img-preview" style="display:none" alt="Förhandsgranskning av bakgrundsbild">
         <span id="clear-img" class="clear-img" style="display:none" role="button" tabindex="0">x Ta bort bild</span>
       </div>
       <div style="margin-top:.75rem;padding:.7rem .9rem;background:#f0f6f7;border-radius:8px;font-size:.78rem;color:#445;line-height:1.6">
@@ -309,15 +309,15 @@
   <!-- RIGHT: preview + QR -->
   <div>
     <div class="card" style="margin-bottom:1.2rem">
-      <h2>Forhandsgranskning</h2>
-      <div class="preview-phone" aria-label="Forhandsgranskning av app-utseende">
+      <h2>Förhandsgranskning</h2>
+      <div class="preview-phone" aria-label="Förhandsgranskning av app-utseende">
         <div class="p-bg" id="p-bg">
           <img id="p-bg-img" class="p-bg-img" src="public/home_background.jpg" alt="">
         </div>
         <div class="p-topbar" id="p-topbar">ID-Ombud</div>
         <div class="p-card-wrap">
           <div class="p-card">
-            <div class="p-card-title">Anvand ditt elektroniska ID</div>
+            <div class="p-card-title">Använd ditt elektroniska ID</div>
             <div class="p-qr-btn" id="p-btn">
               <!-- QR viewfinder icon -->
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -333,9 +333,9 @@
     </div>
 
     <div class="card">
-      <h2>QR-kod for brandinguppdatering</h2>
+      <h2>QR-kod för brandinguppdatering</h2>
       <p style="font-size:.8rem;color:#666;margin-bottom:.75rem">
-        Ange URL till din server. Appen hamtar <code>/public/branding.json</code> relativt den URL du anger.
+        Ange URL till din server. Appen hämtar <code>/public/branding.json</code> relativt den URL du anger.
       </p>
       <label for="baseurl" style="font-size:.83rem;font-weight:600;display:block;margin-bottom:.3rem">Backend-URL</label>
       <input type="url" id="baseurl" placeholder="https://service.example.com" autocomplete="off" spellcheck="false">
@@ -354,13 +354,13 @@
 <div class="demo-card" style="margin-top:0">
   <div class="demo-qr-wrap">
     <h2>Demo – skanna direkt</h2>
-    <div id="demo-qr" aria-label="Demo QR-kod for FortifiedID standardbranding"></div>
+    <div id="demo-qr" aria-label="Demo QR-kod för FortifiedID exempelbranding"></div>
     <span class="demo-badge">Exempelkonfiguration</span>
   </div>
   <div class="demo-info">
     <h2>Redo att testa</h2>
     <p>
-      Skanna QR-koden med en enhet som kör appen. Appen hamtar då ett färdigt
+      Skanna QR-koden med en enhet som kör appen. Appen hämtar då ett färdigt
       exempelbrandingpaket direkt från det här repot och tillämpar färgerna.
     </p>
     <p>
@@ -376,6 +376,19 @@
   </div>
 </div>
 </div><!-- /tab-demo -->
+
+<div class="demo-card" style="max-width:900px;margin:1.5rem auto 0;background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.09);padding:1.5rem;display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap">
+  <div class="demo-qr-wrap">
+    <h2>Återställ till standard</h2>
+    <div id="reset-qr" style="width:160px;height:160px;padding:6px;background:#fff;border:1.5px solid #d0dde0;border-radius:10px" aria-label="QR-kod för återställning av branding"></div>
+    <span class="demo-badge" style="background:#fde8e8;color:#c0392b">Återställning</span>
+  </div>
+  <div class="demo-info">
+    <h2>Ta bort anpassat utseende</h2>
+    <p>Skanna den här QR-koden i appen för att återgå till appens standardutseende. Alla anpassade färger och bakgrundsbilder tas bort.</p>
+    <p>Djuplänken kodar kommandot <code>idombud://branding-reset</code> — inga URL-parametrar behövs.</p>
+  </div>
+</div>
 
 <script>
 // QR encoder (qrcodejs by davidshimjs, MIT licence, inlined)
@@ -565,7 +578,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       dlBox.style.display = '';
       document.getElementById('qr-status').textContent = '\u00a0';
     } catch (err) {
-      qrWrap.innerHTML = '<span style="color:#c00;font-size:.8rem">URL for lang for QR</span>';
+      qrWrap.innerHTML = '<span style="color:#c00;font-size:.8rem">URL för lång för QR</span>';
       dlBox.style.display = 'none';
     }
   }
@@ -575,7 +588,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   function copyDeepLink() {
     if (dlBox.textContent) {
       navigator.clipboard.writeText(dlBox.textContent).then(function () {
-        flash('qr-status', 'Djuplank kopierad');
+        flash('qr-status', 'Djuplänk kopierad');
       });
     }
   }
@@ -595,6 +608,13 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   var demoQRRendered = false;
   var DEMO_BASE_URL = 'https://fortifiedid.github.io/eid-branding-tool';
   var DEMO_DEEPLINK = 'idombud://branding?url=' + encodeURIComponent(DEMO_BASE_URL);
+
+  // Reset QR is static – render on page load
+  new QRCode(document.getElementById('reset-qr'), {
+    text: 'idombud://branding-reset', width: 148, height: 148,
+    colorDark: '#7a0000', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
 
   function renderDemoQR() {
     if (demoQRRendered) return;
