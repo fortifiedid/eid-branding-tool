@@ -279,7 +279,17 @@
         <img id="img-preview" style="display:none" alt="Forhandsgranskning av bakgrundsbild">
         <span id="clear-img" class="clear-img" style="display:none" role="button" tabindex="0">x Ta bort bild</span>
       </div>
-      <p class="hint" style="margin-top:.5rem">Tips: Lagga bilden som en separat fil pa servern och ange URL nedan ger mindre branding.json</p>
+      <div style="margin-top:.75rem;padding:.7rem .9rem;background:#f0f6f7;border-radius:8px;font-size:.78rem;color:#445;line-height:1.6">
+        <strong style="display:block;margin-bottom:.3rem">Rekommenderade bildspecifikationer</strong>
+        <ul style="margin:0;padding-left:1.2em">
+          <li><strong>Format:</strong> JPEG (rekommenderas för foton) eller PNG</li>
+          <li><strong>Dimensioner:</strong> minst 1080 &times; 900 px, gärna 1500 &times; 1280 px</li>
+          <li><strong>Bildförhållande:</strong> 4:3 liggande (bredare än hög) — matchar standardbilden</li>
+          <li><strong>Filstorlek:</strong> under 500 KB för snabb laddning</li>
+        </ul>
+        <p style="margin:.4rem 0 0">Bilden visas längst ned på startskärmen och fylls ut till full skärmbredd. Bilden beskärs vertikalt vid behov.</p>
+        <p style="margin:.3rem 0 0;color:#888">Tips: Ange en bild-URL nedan istället för att bädda in bilden i branding.json — ger en mycket mindre konfigurationsfil.</p>
+      </div>
       <div class="row" style="margin-top:.75rem">
         <label for="img-url">Eller ange bild-URL direkt</label>
         <input type="url" id="img-url" placeholder="https://service.example.com/bg.jpg">
