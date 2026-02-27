@@ -388,13 +388,6 @@
         </div>
       </div>
 
-      <div class="row">
-        <label>Bakgrundsfärg</label>
-        <div class="color-row">
-          <input type="color" id="c-bg" value="#F7F7F7">
-          <input type="text"  id="t-bg" value="#F7F7F7" maxlength="7">
-        </div>
-      </div>
     </div>
 
     <div class="card" style="margin-bottom:1.2rem">
@@ -622,7 +615,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   }
   bindColor('c-primary', 't-primary', 'primaryColor');
   bindColor('c-accent',  't-accent',  'progressColor');
-  bindColor('c-bg',      't-bg',      'backgroundColor');
+
 
   // image upload
   var dropZone   = document.getElementById('drop-zone');
@@ -747,9 +740,8 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   // JSON builder
   function buildConfig() {
     var cfg = {
-      primaryColor:    state.primaryColor,
-      progressColor:   state.progressColor,
-      backgroundColor: state.backgroundColor
+      primaryColor:  state.primaryColor,
+      progressColor: state.progressColor
     };
     if (state.backgroundImageUrl) cfg.backgroundImageUrl = state.backgroundImageUrl;
     return cfg;
