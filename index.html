@@ -170,6 +170,25 @@
     }
     .deeplink-box:hover { background: #e4f0f2; }
     .status { font-size: .75rem; color: var(--accent); min-height: 1.1em; margin-top: .3rem; text-align: center; }
+
+    .demo-card {
+      max-width: 900px; margin: 1.5rem auto 0;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;
+    }
+    .demo-card h2 { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #888; margin-bottom: .6rem; }
+    .demo-qr-wrap {
+      flex: 0 0 auto;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .demo-qr-wrap > div { width: 160px; height: 160px; padding: 6px; background: #fff; border: 1.5px solid #d0dde0; border-radius: 10px; }
+    .demo-info { flex: 1; min-width: 220px; }
+    .demo-info p { font-size: .85rem; color: #555; line-height: 1.55; margin-bottom: .6rem; }
+    .demo-info code { font-size: .8rem; background: #f0f6f7; padding: .15em .4em; border-radius: 4px; color: var(--accent); }
+    .demo-badge { display: inline-block; padding: .25em .7em; border-radius: 20px; font-size: .72rem; font-weight: 700; background: #e6eff1; color: var(--primary); margin-bottom: .5rem; }
   </style>
 </head>
 <body>
@@ -271,6 +290,32 @@
     </div>
   </div>
 
+</div>
+
+<!-- Demo QR card -->
+<div class="demo-card">
+  <div class="demo-qr-wrap">
+    <h2>Demo – skanna direkt</h2>
+    <div id="demo-qr" aria-label="Demo QR-kod for FortifiedID standardbranding"></div>
+    <span class="demo-badge">Exempelkonfiguration</span>
+  </div>
+  <div class="demo-info">
+    <h2>Redo att testa</h2>
+    <p>
+      Skanna QR-koden med en enhet som kör appen. Appen hamtar då ett färdigt
+      exempelbrandingpaket direkt från det här repot och tillämpar färgerna.
+    </p>
+    <p>
+      Djuplänken pekar mot <code>https://fortifiedid.github.io/eid-branding-tool</code>.<br>
+      Appen hämtar <code>/public/branding.json</code> relativt den URL:en.
+    </p>
+    <p>
+      Vill du testa dina egna färger? Konfigurera ovan, ladda ner
+      <code>branding.json</code> och lägg den på din server, ange sedan din backend-URL
+      i QR-sektionen ovan.
+    </p>
+    <a href="public/branding.json" target="_blank" style="font-size:.8rem;color:var(--accent)">Se exempel-branding.json &rarr;</a>
+  </div>
 </div>
 
 <script>
@@ -475,6 +520,15 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     clearTimeout(flashTimers[id]);
     flashTimers[id] = setTimeout(function () { el.textContent = '\u00a0'; }, 2500);
   }
+
+  // Render pre-baked demo QR on page load
+  var DEMO_BASE_URL = 'https://fortifiedid.github.io/eid-branding-tool';
+  var DEMO_DEEPLINK = 'idombud://branding?url=' + encodeURIComponent(DEMO_BASE_URL);
+  new QRCode(document.getElementById('demo-qr'), {
+    text: DEMO_DEEPLINK, width: 148, height: 148,
+    colorDark: '#1b434d', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
 })();
 </script>
 </body>
