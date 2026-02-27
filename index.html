@@ -230,7 +230,7 @@
     .carousel-nav-btn:hover { background: #c9dee3; }
     .carousel-viewport {
       overflow: hidden;
-      width: 190px;
+      width: 224px;
       flex-shrink: 0;
     }
     .carousel-track {
@@ -239,7 +239,7 @@
       will-change: transform;
     }
     .preview-item {
-      flex: 0 0 190px;
+      flex: 0 0 224px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -702,7 +702,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     var total = SLIDE_LABELS.length;
     currentSlide = ((n % total) + total) % total;
     document.getElementById('carousel-track').style.transform =
-      'translateX(-' + (currentSlide * 190) + 'px)';
+      'translateX(-' + (currentSlide * 224) + 'px)';
     document.getElementById('carousel-label').textContent = SLIDE_LABELS[currentSlide];
     document.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
       dot.classList.toggle('active', i === currentSlide);
