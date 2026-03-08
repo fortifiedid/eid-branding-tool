@@ -527,7 +527,21 @@
     </div><!-- /preview-carousel-card -->
 
     <div class="card">
-      <h2>QR-kod för brandinguppdatering</h2>
+      <h2>QR-kod – aktuell konfiguration</h2>
+      <p style="font-size:.8rem;color:#666;margin-bottom:.75rem">
+        QR-koden kodar hela din konfiguration och uppdateras automatiskt när du ändrar färg eller bild.
+      </p>
+      <div class="qr-wrap">
+        <div id="qr-inline"></div>
+      </div>
+      <div id="inline-img-warning" style="display:none;font-size:.75rem;color:#c07000;background:#fff8e8;border:1px solid #f0d080;border-radius:7px;padding:.4rem .7rem;margin-top:.5rem">
+        Lokal bild kan inte inkluderas i QR – ladda upp till GitHub Pages för att ta med bilden i konfigurationen.
+      </div>
+      <div id="deeplink-box-inline" class="deeplink-box" style="display:none" role="button" tabindex="0" aria-label="Kopiera deep link"></div>
+      <div class="status" id="qr-inline-status">&nbsp;</div>
+
+      <hr style="margin:1.2rem 0 1rem;border:none;border-top:1px solid #e0e8eb">
+      <h2 style="margin-bottom:.5rem">QR via server-URL</h2>
       <p style="font-size:.8rem;color:#666;margin-bottom:.75rem">
         Ange URL till din server. Appen hämtar <code>/public/branding.json</code> relativt den URL du anger.
       </p>
@@ -748,6 +762,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
       // Keep preview showing the already-loaded local image, just update the URL reference
       uploadStatus.textContent = '\u2713 Uppladdad! URL ifylld automatiskt.';
       btnUploadGh.disabled = false;
+      renderInlineQR();
       var baseUrl = urlInput.value.trim();
       if (baseUrl) renderQR(buildDeepLink(baseUrl));
     })
@@ -811,6 +826,7 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     var bgImgEl3 = document.getElementById('p-bg-img-3');
     bgImgEl3.src = bgImg;
     bgImgEl3.style.display = 'block';
+    if (typeof renderInlineQR === 'function') renderInlineQR();
   }
   updatePreview();
 
@@ -822,6 +838,55 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
     if (state.backgroundImageUrl) cfg.backgroundImageUrl = state.backgroundImageUrl;
     return cfg;
   }
+
+  // Inline config QR
+  var inlineQRWrap = document.getElementById('qr-inline');
+  var inlineDlBox  = document.getElementById('deeplink-box-inline');
+  var imgWarning   = document.getElementById('inline-img-warning');
+
+  function buildInlineDeepLink() {
+    var cfg = { primaryColor: state.primaryColor };
+    var imgUrl = state.backgroundImageUrl;
+    if (imgUrl && imgUrl.indexOf('data:') !== 0) {
+      cfg.backgroundImageUrl = imgUrl;
+    }
+    var json = JSON.stringify(cfg);
+    var b64  = btoa(unescape(encodeURIComponent(json)));
+    return 'idombud://branding?config=' + encodeURIComponent(b64);
+  }
+
+  function renderInlineQR() {
+    inlineQRWrap.innerHTML = '';
+    // Warn if a local image is loaded but hasn't been uploaded (still a data: URL)
+    var hasLocalImg = state._imageDataUrl &&
+                      state._imageDataUrl.indexOf('data:') === 0 &&
+                      (!state.backgroundImageUrl || state.backgroundImageUrl.indexOf('data:') === 0);
+    imgWarning.style.display = hasLocalImg ? '' : 'none';
+    var url = buildInlineDeepLink();
+    try {
+      new QRCode(inlineQRWrap, {
+        text: url, width: 200, height: 200,
+        colorDark: '#000000', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      inlineDlBox.textContent = url;
+      inlineDlBox.style.display = '';
+    } catch (err) {
+      inlineQRWrap.innerHTML = '<span style="color:#c00;font-size:.8rem">Konfigurationen är för stor för QR</span>';
+      inlineDlBox.style.display = 'none';
+    }
+  }
+
+  inlineDlBox.addEventListener('click', function () {
+    if (inlineDlBox.textContent) {
+      navigator.clipboard.writeText(inlineDlBox.textContent).then(function () {
+        flash('qr-inline-status', 'Djuplänk kopierad');
+      });
+    }
+  });
+  inlineDlBox.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') inlineDlBox.click();
+  });
 
   // download
   document.getElementById('btn-download').addEventListener('click', function () {
