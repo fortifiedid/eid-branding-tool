@@ -840,10 +840,6 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   }
 
   // Inline config QR
-  var inlineQRWrap = document.getElementById('qr-inline');
-  var inlineDlBox  = document.getElementById('deeplink-box-inline');
-  var imgWarning   = document.getElementById('inline-img-warning');
-
   function buildInlineDeepLink() {
     var cfg = { primaryColor: state.primaryColor };
     var imgUrl = state.backgroundImageUrl;
@@ -856,36 +852,40 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
   }
 
   function renderInlineQR() {
-    inlineQRWrap.innerHTML = '';
-    // Warn if a local image is loaded but hasn't been uploaded (still a data: URL)
+    var wrap    = document.getElementById('qr-inline');
+    var dlBox   = document.getElementById('deeplink-box-inline');
+    var warning = document.getElementById('inline-img-warning');
+    if (!wrap) return;
+    wrap.innerHTML = '';
     var hasLocalImg = state._imageDataUrl &&
                       state._imageDataUrl.indexOf('data:') === 0 &&
                       (!state.backgroundImageUrl || state.backgroundImageUrl.indexOf('data:') === 0);
-    imgWarning.style.display = hasLocalImg ? '' : 'none';
+    warning.style.display = hasLocalImg ? '' : 'none';
     var url = buildInlineDeepLink();
     try {
-      new QRCode(inlineQRWrap, {
+      new QRCode(wrap, {
         text: url, width: 200, height: 200,
         colorDark: '#000000', colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
       });
-      inlineDlBox.textContent = url;
-      inlineDlBox.style.display = '';
+      dlBox.textContent = url;
+      dlBox.style.display = '';
     } catch (err) {
-      inlineQRWrap.innerHTML = '<span style="color:#c00;font-size:.8rem">Konfigurationen är för stor för QR</span>';
-      inlineDlBox.style.display = 'none';
+      wrap.innerHTML = '<span style="color:#c00;font-size:.8rem">Konfigurationen är för stor för QR</span>';
+      dlBox.style.display = 'none';
     }
   }
 
-  inlineDlBox.addEventListener('click', function () {
-    if (inlineDlBox.textContent) {
-      navigator.clipboard.writeText(inlineDlBox.textContent).then(function () {
+  document.getElementById('deeplink-box-inline').addEventListener('click', function () {
+    var dlBox = document.getElementById('deeplink-box-inline');
+    if (dlBox.textContent) {
+      navigator.clipboard.writeText(dlBox.textContent).then(function () {
         flash('qr-inline-status', 'Djuplänk kopierad');
       });
     }
   });
-  inlineDlBox.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' || e.key === ' ') inlineDlBox.click();
+  document.getElementById('deeplink-box-inline').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') document.getElementById('deeplink-box-inline').click();
   });
 
   renderInlineQR();
